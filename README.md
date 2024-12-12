@@ -9,6 +9,28 @@
 
 CISA's Logging Made Easy (LME) is a no cost, open source platform that centralizes log collection, enhances threat detection, and enables real-time alerting, helping small to medium-sized organizations secure their infrastructure. Whether you're upgrading from a previous version or deploying for the first time, LME offers a scalable, efficient solution for logging and endpoint security.
 
+## My fork notes and changes
+
+While the description provided by CISA says LME is a "no cost, open source platform" that's no longer accurate now that Elastic has applied licensing limitations to their products. The *basic* configuration is still free, but it also has some limitations. I don't know if those license limitations even affect me, but I want to avoid that if possible.
+
+While LME is well designed for monitoring Windows and Linux client devices, it lacks the ability to ingest syslog messages, which happens to be *my* primary use-case. Based on what I've read, Logstash is still the best tool, within the Elastic stack, for handling syslog messages, LME doesn't deploy a Logstash container.
+
+To resolve these issues, I would like to look at some alternatives to Elastic products:  
+- [OpenSearch](https://opensearch.org/)
+  - OpenSearch replaces Elasticsearch
+  - I found OpenSearch thanks to this page from [logz.io](https://logz.io/blog/filebeat-vs-logstash/)
+- OpenSearch Dashboards
+  - OpenSearch Dashboards replaces Kibana
+- [Fluentd and Fluent Bit](https://logz.io/blog/fluentd-vs-fluent-bit/)
+  - Fluentd has become popular enough that the common "ELK" stack is often called "EFK" stack
+  - [Fluentd](https://github.com/fluent/fluentd) specifically lists syslog as a data source
+  - It appears that Fluentd and Fluent Bit are meant to ingest logs, process them, then forward to some external tool. My guess is you'd use Fluent to ingest and process syslog, then export the filtered/processed syslog messages to something like OpenSearch or OpenSearch Dashboards.
+- [OpenTelemetry](https://fluentbit.io/opentelemetry/) may also work for replacing other aspects of Elastic, but there's a lot of technology I need to learn first.
+
+
+There's a possible standalone option for handling syslog, but it may not be ideal:  
+- [LibreNMS](https://www.librenms.org/) is specifically designed to handle syslog, it may be a better tool for the job.
+
 ## Updates 
 
 For LME's 2.0 release, we’re introducing several new features and architectural components to improve Security Information and Event Management (SIEM) capabilities while simplifying overall use of LME:
