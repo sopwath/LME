@@ -65,7 +65,7 @@
       command: sudo -n true
       changed_when: false
 
-    - name: Setup /etc/subgid
+    - name: Setup /etc/subuid
       lineinfile:
         path: "/etc/subuid"
         line: 'containers:165536:65536'
